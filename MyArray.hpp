@@ -32,8 +32,8 @@ namespace vishal
   template<typename Type>
   bool MyArray<Type>::operator==(const MyArray<Type>&right)const noexcept
   {
-    const std::span<const int>lt{this->Array.get(),this->size};
-    const std::span<const int>rt{right.Array.get(),right.size};
+    const std::span<const Type>lt{this->Array.get(),this->size};
+    const std::span<const Type>rt{right.Array.get(),right.size};
     return std::equal(std::begin(lt),std::end(lt),std::begin(rt),std::end(rt));
   };
 
@@ -41,7 +41,7 @@ namespace vishal
   std::string MyArray<Type>::toString()const
   {
     std::ostringstream str{};
-    const std::span<const int>data{this->Array.get(),this->size};
+    const std::span<const Type>data{this->Array.get(),this->size};
     str<<"{";
     for(size_t i{0};auto&item:data)
     {
@@ -76,14 +76,14 @@ namespace vishal
   {
     this->size=other.size;
     this->Array=std::make_unique<Type[]>(this->size);
-    std::span<const int>source{other.Array.get(),other.size};
+    std::span<const Type>source{other.Array.get(),other.size};
     std::copy(std::begin(source),std::end(source),Array.get());
   };
 
   template<typename Type>
   MyArray<Type>::MyArray(const MyArray<Type>&other):size{other.size},Array{std::make_unique<Type[]>(size)}
   {
-    const std::span<const int>source{other.Array.get(),other.size};
+    const std::span<const Type>source{other.Array.get(),other.size};
     std::copy(std::begin(source),std::end(source),Array.get());
   };
 
