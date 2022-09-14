@@ -6,15 +6,19 @@
 #include<span>
 #include<string>
 #include<sstream>
-
+#include<algorithm>
 namespace vishal
 {
   template<typename Type>
   class MyArray
   {
+
+
   private:
     size_t size{};
     std::unique_ptr<Type[]>Array{};
+
+
   public:
     explicit MyArray(const size_t&size);
     explicit MyArray(std::initializer_list<Type>list);
@@ -24,11 +28,105 @@ namespace vishal
     void operator=(const MyArray<Type>&)noexcept;
     void operator=(MyArray<Type>&&)noexcept;
     bool operator==(const MyArray<Type>&)const noexcept;
+    Type& operator[](const size_t index);
+    const Type& operator[](const size_t index)const;
+    explicit operator bool()const noexcept;
+    MyArray& operator++();//preincreament
+    MyArray& operator--();//preincreament
+    MyArray operator++(int);//postincreament
+    MyArray operator--(int);//postincreament
+    MyArray& operator+=(const MyArray<Type>&);
+    MyArray& operator+=(const Type&);
+    explicit operator int()const noexcept;
+    explicit operator double()const noexcept;
+
 
   public:
     size_t getSize()const noexcept{return this->size;};
     std::string toString()const;
+
+
   };
+  template<typename Type>
+  MyArray<Type>& MyArray<Type>::operator+=(const Type&value)
+  {
+    std::span<Type>Source{this->Array.get(),this->size};
+    std::for_each(std::begin(Source),std::end(Source),[value](auto&item){item+=value;});
+    return (*this);
+  };
+
+  template<typename Type>
+  MyArray<Type> MyArray<Type>::operator++(int)
+  {
+    MyArray<Type> temp{*this};
+    ++(*this);
+    return temp;
+  };
+  template<typename Type>
+  MyArray<Type> MyArray<Type>::operator--(int)
+  {
+    MyArray<Type>temp{*this};
+    --(*this);
+    return temp;
+  };
+
+  template<typename Type>
+  MyArray<Type>& MyArray<Type>::operator+=(const MyArray<Type>&right)
+  {
+    for(size_t i{0};i<right.size&&i<this->size;++i)
+    {
+      this->Array[i]+=right.Array[i];
+    };
+    return (*this);
+  };
+
+  template<typename Type>
+  MyArray<Type>::operator int()const noexcept
+  {
+    return false;
+  };
+  template<typename Type>
+  MyArray<Type>::operator double()const noexcept
+  {
+    return false;
+  };
+
+  template<typename Type>
+  MyArray <Type>& MyArray<Type>::operator++()
+  {
+    const std::span<const Type>Source{this->Array.get(),this->size};
+    std::for_each(std::begin(Source),std::end(Source),[](auto&item){++item;});
+    return *this;
+  };
+
+  template<typename Type>
+  MyArray<Type>& MyArray<Type>::operator--()
+  {
+    const std::span<const Type>source{this->Array.get(),this->size};
+    std::for_each(std::begin(source),std::end(source),[](auto&item){--item;});
+    return *this;
+  };
+
+  template<typename Type>
+  MyArray<Type>::operator bool()const noexcept
+  {
+    return this->size!=0;
+  };
+
+  template<typename Type>
+  Type& MyArray<Type>::operator[](const size_t index)
+  {
+    if(index>=this->size)throw std::out_of_range{"[error] out of range!"};
+    return this->Array[index];
+  };
+
+  template<typename Type>
+  const Type& MyArray<Type>::operator[](const size_t index)const
+  {
+    if(index>=this->size)throw std::out_of_range{"[error] out of range!"};
+    return this->Array[index];
+  };
+
   template<typename Type>
   bool MyArray<Type>::operator==(const MyArray<Type>&right)const noexcept
   {
