@@ -50,6 +50,6 @@ int main()
   // std::cout<<"myage"<<myAge<<"\nyour age : "<<yourAge<<"\n";
   vishal::MyArray<int>arr{4,5,6,7};
   printMyArray(arr);
-
+  // printMyArray(4);
   return 0;
 };
