@@ -1,4 +1,10 @@
 #include"../MyArray.hpp"
+#include<iostream>
+void printMyArray(vishal::MyArray<int>&arr)
+{
+  std::cout<<arr<<"\n";
+};
+
 int main()
 {
   // vishal::MyArray<int>intArray{45,67,89,05,34,65,34};
@@ -21,18 +27,29 @@ int main()
   // std::cout<<stringArray[3]<<"\n";
   // stringArray[3]="vishal ahirwar";
   // std::cout<<stringArray[3]<<"\n";
-  vishal::MyArray<double>values{34.5,45.6,45.3,67.77,8.77,67.565,4.33,34.34};
-  vishal::MyArray<std::string>Names{"vishal","rohan","rishi","inlilove","osuf"};
-
-  if(static_cast<bool>(Names))std::cout<<Names.toString()<<"\n";
-  try{
-      Names+="- from Earth planet\n";
-      if(static_cast<bool>(Names))std::cout<<Names.toString()<<"\n";
-  }
-  catch(std::exception&e)
-  {
-    std::cout<<"[error]"<<e.what()<<"\n";
-  };
+  // vishal::MyArray<double>values{34.5,45.6,45.3,67.77,8.77,67.565,4.33,34.34};
+  // vishal::MyArray<std::string>Names{"vishal","rohan","rishi","inlilove","osuf"};
+  //
+  // if(static_cast<bool>(Names))std::cout<<Names.toString()<<"\n";
+  // try{
+  //     Names+="- from Earth planet\n";
+  //     if(static_cast<bool>(Names))std::cout<<Names.toString()<<"\n";
+  // }
+  // catch(std::exception&e)
+  // {
+  //   std::cout<<"[error]"<<e.what()<<"\n";
+  // };
+  // vishal::MyArray<size_t>myAge(2);
+  // vishal::MyArray<size_t>yourAge(2);
+  // std::cout<<"my age:";
+  // std::cin>>myAge;
+  // std::cout<<"your age: ";
+  // std::cin >>yourAge;
+  // std::cout<<"myAge"<<myAge<<"\n"<<"your age : "<<yourAge<<"\nAfter swap :\n";
+  // myAge.swap(yourAge);
+  // std::cout<<"myage"<<myAge<<"\nyour age : "<<yourAge<<"\n";
+  vishal::MyArray<int>arr{4,5,6,7};
+  printMyArray(arr);
 
   return 0;
 };

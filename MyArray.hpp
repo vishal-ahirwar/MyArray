@@ -9,16 +9,13 @@
 #include<algorithm>
 namespace vishal
 {
+
   template<typename Type>
-  class MyArray
+  class MyArray final
   {
-
-
   private:
     size_t size{};
     std::unique_ptr<Type[]>Array{};
-
-
   public:
     explicit MyArray(const size_t&size);
     explicit MyArray(std::initializer_list<Type>list);
@@ -40,13 +37,30 @@ namespace vishal
     explicit operator int()const noexcept;
     explicit operator double()const noexcept;
 
+    friend std::ostream& operator<<(std::ostream&out,MyArray<Type>&obj)
+    {
+      out<<obj.toString();
+      return out;
+    };
 
+    friend std::istream& operator>>(std::istream&in,MyArray<Type>&obj)
+    {
+      std::span<Type> source{obj.Array.get(),obj.size};
+      std::for_each(std::begin(source),std::end(source),[&](auto&item){in>>item;});
+      return in;
+    };
   public:
     size_t getSize()const noexcept{return this->size;};
     std::string toString()const;
-
-
+    void swap(MyArray<Type>&b)noexcept;
   };
+  template<typename Type>
+  void MyArray<Type>::swap(MyArray<Type>&other)noexcept
+  {
+    std::swap(this->size,other.size);
+    this->Array.swap(other.Array);
+  };
+
   template<typename Type>
   MyArray<Type>& MyArray<Type>::operator+=(const Type&value)
   {
@@ -197,6 +211,6 @@ namespace vishal
   };
 
 
-}
+}//class MyArray
 
 #endif//MyArray.hpp
